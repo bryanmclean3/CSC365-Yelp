@@ -34,6 +34,7 @@ public class Application implements ActionListener {
     static JLabel closestNeighbor2 = new JLabel("Closest Geographically: ");
     static JLabel closestNeighbor3 = new JLabel("Closest Geographically: ");
     static JLabel closestNeighbor4 = new JLabel("Closest Geographically: ");
+    static JLabel shortestPath = new JLabel("Shortest Path: ");
     static JLabel label1 = new JLabel("");
     static JLabel label2 = new JLabel("");
     static JLabel label3 = new JLabel("");
@@ -42,7 +43,9 @@ public class Application implements ActionListener {
     static JLabel close2 = new JLabel("");
     static JLabel close3 = new JLabel("");
     static JLabel close4 = new JLabel("");
+    static JLabel path = new JLabel("");
     static List<List<String>> documents = new ArrayList<>();
+    static List<String> names = new ArrayList<>();
 
 
     public static void main(String[] args) throws IOException, ParseException {
@@ -76,6 +79,7 @@ public class Application implements ActionListener {
         panel.add(closestNeighbor2);
         panel.add(closestNeighbor3);
         panel.add(closestNeighbor4);
+        panel.add(shortestPath);
 
         layout.putConstraint(SpringLayout.WEST, rec1, 5, SpringLayout.WEST, panel);
         layout.putConstraint(SpringLayout.NORTH, rec1, 50, SpringLayout.NORTH, label);
@@ -94,6 +98,8 @@ public class Application implements ActionListener {
         layout.putConstraint(SpringLayout.NORTH, closestNeighbor3, 50, SpringLayout.NORTH, closestNeighbor2);
         layout.putConstraint(SpringLayout.WEST, closestNeighbor4, 5, SpringLayout.WEST, panel);
         layout.putConstraint(SpringLayout.NORTH, closestNeighbor4, 50, SpringLayout.NORTH, closestNeighbor3);
+        layout.putConstraint(SpringLayout.WEST, shortestPath, 5, SpringLayout.WEST, panel);
+        layout.putConstraint(SpringLayout.NORTH, shortestPath, 50, SpringLayout.NORTH, closestNeighbor4);
 
 
         button.addActionListener(new Application());
@@ -106,6 +112,7 @@ public class Application implements ActionListener {
         panel.add(close2);
         panel.add(close3);
         panel.add(close4);
+        panel.add(path);
 
 
         layout.putConstraint(SpringLayout.WEST, label1, 120, SpringLayout.WEST, rec1);
@@ -117,6 +124,16 @@ public class Application implements ActionListener {
         layout.putConstraint(SpringLayout.WEST, label4, 120, SpringLayout.WEST, simil);
         layout.putConstraint(SpringLayout.NORTH, label4, 50, SpringLayout.NORTH, label3);
 
+        layout.putConstraint(SpringLayout.WEST, close1, 200, SpringLayout.WEST, closestNeighbor1);
+        layout.putConstraint(SpringLayout.NORTH, close1, 100, SpringLayout.NORTH, label4);
+        layout.putConstraint(SpringLayout.WEST, close2, 200, SpringLayout.WEST, closestNeighbor2);
+        layout.putConstraint(SpringLayout.NORTH, close2, 50, SpringLayout.NORTH, close1);
+        layout.putConstraint(SpringLayout.WEST, close3, 200, SpringLayout.WEST, closestNeighbor3);
+        layout.putConstraint(SpringLayout.NORTH, close3, 50, SpringLayout.NORTH, close2);
+        layout.putConstraint(SpringLayout.WEST, close4, 200, SpringLayout.WEST, closestNeighbor4);
+        layout.putConstraint(SpringLayout.NORTH, close4, 50, SpringLayout.NORTH, close3);
+        layout.putConstraint(SpringLayout.WEST, path, 200, SpringLayout.WEST, shortestPath);
+        layout.putConstraint(SpringLayout.NORTH, path, 50, SpringLayout.NORTH, close4);
     }
 
     @Override
@@ -166,7 +183,7 @@ public class Application implements ActionListener {
             Business business = gson.fromJson(jsonObject.toJSONString(), Business.class);
             nextList = Arrays.asList(business.categories.split(", "));
             documents.add(nextList); //add all business categories
-
+            names.add(business.name);
         }
 
         for (int j = 0; j < documents.size(); j++) {
